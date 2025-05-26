@@ -81,7 +81,6 @@ cmake ../llvm \
 Additional options to add at the end **only for Linux**:
 
 ```
-  -DLLVM_USE_LINKER=gold \
   -DLLVM_PARALLEL_LINK_JOBS=1
 ```
 
@@ -134,7 +133,7 @@ building TAFFO (see the top-level Readme for more information).
 You can check that everything works by running:
 
 ```
-/opt/llvm-15-d/bin/clang --version
+/opt/llvm-18-d/bin/clang --version
 ```
 
 **macOS only:**
@@ -226,15 +225,6 @@ These other options are recommended but can be removed/changed if one wishes:
 
 The following options are OS-dependent but can be removed if you wish:
 
-- `-DLLVM_USE_LINKER=gold`: The default linker on Linux (GNU ld) is so slow
-  and uses so much RAM that building LLVM can consume more than 32 GB of RAM
-  even on a 4 core machine. By specifying this option we tell CMake to use
-  the `gold` linker instead, which uses less RAM and is faster.
-  
-  GNU ld has been observed grinding a 20 core machine with 70 GB of RAM to a
-  complete halt because 20 parallel linking jobs exhausted the entire 70 GBs.
-  Whatever your machine is, it is guaranteed it is not powerful enough to build
-  LLVM with GNU ld.
 - `-DLLVM_PARALLEL_LINK_JOBS=1`: To improve our chances of success on Linux even
   more the LLVM devs have introduced this option which limits the amount of
   parallel linking jobs. `1` is a conservative value here, on a 20 core machine
